@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>Simple Map</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="https://js.arcgis.com/3.23/"></script>
+    <script>
+      var map;
+      var myZoom, myjd, mywd, myBasemap, myPoint;
+    function refresh() {  
+      require(["esri/map","dojo/dom","dojo/on","esri/geometry/Point","dojo/domReady!"], function(Map,dom,on,Point) {
+          on(dom.byId("again"), "click", init);
+          map = new Map("map");
+          init();
+     function init() {     
+          myZoom = dom.byId("inputTitle").value;
+          myjd = dom.byId("jindu").value;
+          mywd = dom.byId("weidu").value;
+          myBasemap = dom.byId("choose").value;
+          myPoint = new Point(myjd, mywd);
+            map.setZoom(myZoom);
+         map.centerAt(myPoint);
+         map.setBasemap(myBasemap);
+         }
+      });
+        }
+    </script>
+  </head>
+
+  <body >
+    <div id="map">
+        <div >
+    <select id="inputTitle" >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+            </select>
+    经度：<input id="jindu" type="text" value=""  />
+    纬度：<input id="weidu" type="text" value="" />
+      <select id ="choose" name="地图选择" >
+        <option value="!">请选择以下地图中的一种</option>
+        <option value="topo">topo</option>
+        <option value="dark-gray">dark-gray</option>
+        <option value="satellite">satellite</option>
+        <option value="hybrid">hybrid</option>
+        <option value="gray">gray</option>
+        <option value="srv">streets-relief-vector</option>
+        <option value="osm">osm</option>
+        <option value="national-geographic">national-geographic</option>
+    </select>
+    <input type="button" id="again" value="刷新" class="submitButton" /> 
+	    <input type="button" id="refresh" value="显示地图" class="submitButton" onclick="refresh()" /> 
+        </div>
+        
+	</div>
+    
+  </body>
+</html>
