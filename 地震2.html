@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>CSVLayer sample</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
+    <style>
+      html, body  #map2{
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+	  	
+	    
+      body {
+        background-color: #FFF;
+        overflow: hidden;
+        font-family: "Trebuchet MS";
+      }
+    </style>
+    <script src="https://js.arcgis.com/3.23/"></script>
+    <script>
+      var map, csv;
+
+      require([
+        "esri/map", 
+        "esri/layers/CSVLayer",
+        "esri/Color",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/renderers/SimpleRenderer",
+		"esri/renderers/ClassBreaksRenderer",
+		"esri/renderers/HeatmapRenderer",
+        "esri/InfoTemplate",
+        "esri/config",
+        "dojo/domReady!"
+      ], function(
+        Map, CSVLayer, Color, SimpleMarkerSymbol, SimpleRenderer, ClassBreaksRenderer,HeatmapRenderer,InfoTemplate, esriConfig
+      ) {
+        
+        // Use CORS
+		var symbol;
+        esriConfig.defaults.io.corsEnabledServers.push("qqq807111690.github.io"); // supports CORS
+        
+		  map2 = new Map("map2", {
+          basemap: "gray",
+          center: [ -60, -10 ],
+          zoom: 2 
+        });
+        
+		csv2 = new CSVLayer("https://qqq807111690.github.io/web4gis15/all_month2.csv", {
+          copyright: "USGS.gov"
+        });
+		var heatmapRenderer = new HeatmapRenderer();
+	   
+		var cyan = new Color([0, 255, 255, 0.5]); 
+	    symbol = new SimpleMarkerSymbol(new SimpleMarkerSymbol("solid", 4, null, cyan));
+		symbol2 = new SimpleMarkerSymbol(new SimpleMarkerSymbol("solid", 8, null, cyan));
+		symbol3 = new SimpleMarkerSymbol(new SimpleMarkerSymbol("solid", 12, null, cyan));
+		symbol4 = new SimpleMarkerSymbol(new SimpleMarkerSymbol("solid", 16, null, cyan));
+		symbol5 = new SimpleMarkerSymbol(new SimpleMarkerSymbol("solid", 20, null, cyan));	
+		var renderer = new ClassBreaksRenderer(symbol, "depth");
+        renderer.addBreak(0, 20,  symbol);
+        renderer.addBreak(20, 40, symbol2);
+        renderer.addBreak(40, 60, symbol3);
+        renderer.addBreak(60, 80, symbol4);
+        renderer.addBreak(100, Infinity, symbol5);
+		csv2.setRenderer(renderer);
+		 
+		map2.addLayer(csv2); 
+      });
+
+    </script>
+  </head>
+
+  <body>
+    
+	<div id="map2"></div>
+  </body>
+</html>
